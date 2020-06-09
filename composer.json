@@ -1,9 +1,11 @@
 {
-  "name": "nwidart/laravel-modules",
-  "description": "Laravel Module management",
+  "name": "iurylippo/lumen-modules",
+  "description": "Lumen Module management",
   "keywords": [
     "modules",
     "laravel",
+    "lumen",
+    "iurylippo",
     "nwidart",
     "module",
     "rad"
@@ -14,6 +16,12 @@
       "name": "Nicolas Widart",
       "email": "n.widart@gmail.com",
       "homepage": "https://nicolaswidart.com",
+      "role": "Developer"
+    },
+    {
+      "name": "Iury Lippo",
+      "email": "iuryvieira.lippo@gmail.com",
+      "homepage": "https://www.linkedin.com/in/iury-vieira-lippo/",
       "role": "Developer"
     }
   ],

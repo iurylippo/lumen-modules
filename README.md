@@ -1,6 +1,6 @@
 # Lumen-Modules
 
-| **Laravel**  |  **lumen-modules** |
+| **Laravel-Lumen**  |  **lumen-modules** |
 |---|---|
 
 | 7.0  | ^7.0  |
