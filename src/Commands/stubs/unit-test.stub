@@ -1,0 +1,21 @@
+<?php
+
+namespace $NAMESPACE$;
+
+use Tests\TestCase;
+use Laravel\Lumen\Testing\DatabaseMigrations;
+use Laravel\Lumen\Testing\DatabaseTransactions;
+use Faker\Factory as Faker;
+
+class $CLASS$ extends TestCase
+{
+    /**
+     * A basic unit test example.
+     *
+     * @return void
+     */
+    public function testExample()
+    {
+        $this->assertTrue(true);
+    }
+}

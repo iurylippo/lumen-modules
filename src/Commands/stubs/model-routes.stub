@@ -1,0 +1,6 @@
+
+    $router->get('$LOWER_MODEL$', ['uses' => '$MODEL$Controller@index']);
+    $router->get('$LOWER_MODEL$/{id}', ['uses' => '$MODEL$Controller@show']);
+    $router->post('$LOWER_MODEL$', ['uses' => '$MODEL$Controller@store']);
+    $router->put('$LOWER_MODEL$/{id}', ['uses' => '$MODEL$Controller@update']);
+    $router->delete('$LOWER_MODEL$/{id}', ['uses' => '$MODEL$Controller@delete']);

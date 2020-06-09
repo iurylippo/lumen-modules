@@ -1,0 +1,16 @@
+<?php
+
+/*
+|--------------------------------------------------------------------------
+| Module Routes
+|--------------------------------------------------------------------------
+|
+*/
+$router = $this->app->router;
+
+$router->group([
+    'prefix' => '$LOWER_NAME$',
+    'middleware' => ['auth', 'checkPermAcess']
+], function () use ($router) {
+    //routes
+});

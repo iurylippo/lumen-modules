@@ -1,0 +1,4 @@
+        $this->app->bind(
+            '$CONTRACTS_NAMESPACE$\$REPOSITORY_NAME$RepositoryContract',
+            '$REPOSITORY_NAMESPACE$\$REPOSITORY_CLASS$'
+        );

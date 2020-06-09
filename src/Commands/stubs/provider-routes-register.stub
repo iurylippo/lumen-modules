@@ -1,0 +1,6 @@
+        $this->app->router->group([
+            'namespace' => '$MODULE_NAMESPACE$\$MODULE$\$CONTROLLER_NAMESPACE$',
+        ], function ($router) {
+            $path = __DIR__ . '/../../$MODULE_NAMESPACE$/$MODULE$$WEB_ROUTES_PATH$';
+            $this->loadRoutesFrom($path);
+        });

@@ -1,0 +1,24 @@
+<?php
+
+namespace $NAMESPACE$;
+
+use Illuminate\Support\ServiceProvider;
+
+class $CLASS$ extends ServiceProvider
+{
+    /**
+     * Register the service provider.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        $this->app->router->group([
+            'namespace' => '$MODULE_NAMESPACE$\$MODULE$\$CONTROLLER_NAMESPACE$',
+        ], function ($router) {
+            $path = __DIR__ . '\..$WEB_ROUTES_PATH$';
+            $this->loadRoutesFrom($path);
+        });
+    }
+
+}

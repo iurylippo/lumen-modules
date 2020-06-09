@@ -1,0 +1,12 @@
+<?php
+
+namespace $CONTRACT_NAMESPACE$;
+
+interface $CONTRACT_NAME$
+{
+    public function index();
+    public function show(string $id);
+    public function store(array $data);
+    public function update(array $data, string $id);
+    public function delete(string $id);
+}

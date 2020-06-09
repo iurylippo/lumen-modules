@@ -1,0 +1,40 @@
+<?php
+
+namespace $SERVICE_NAMESPACE$;
+
+use $REPOSITORY_NAMESPACE$\$SERVICENAME_STUDLY$RepositoryContract;
+
+class $SERVICE_CLASS$
+{
+    protected $model;
+
+    public function __construct($SERVICENAME_STUDLY$RepositoryContract $model)
+    {
+        $this->model = $model;
+    }
+
+    public function index()
+    {
+        return $this->model->index();
+    }
+
+    public function show(string $id)
+    {
+        return $this->model->show($id);
+    }
+
+    public function store(array $data)
+    {
+        $this->model->store($data);
+    }
+
+    public function update(array $data, string $id)
+    {
+        $this->model->update($data, $id);
+    }
+
+    public function delete(string $id)
+    {
+        $this->model->delete($id);
+    }
+}
