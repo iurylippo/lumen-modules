@@ -116,7 +116,7 @@ return [
             'views' => ['path' => 'Resources/views', 'generate' => true],
             'test' => ['path' => 'Tests/Unit', 'generate' => true],
             'test-feature' => ['path' => 'Tests/Feature', 'generate' => true],
-            'repository' => ['path' => 'Repositories', 'generate' => false],
+            'repository' => ['driver' => 'Eloquent', 'path' => 'Repositories', 'generate' => false],
             'event' => ['path' => 'Events', 'generate' => false],
             'listener' => ['path' => 'Listeners', 'generate' => false],
             'policies' => ['path' => 'Policies', 'generate' => false],

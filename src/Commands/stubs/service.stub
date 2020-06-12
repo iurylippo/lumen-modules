@@ -25,16 +25,16 @@ class $SERVICE_CLASS$
 
     public function store(array $data)
     {
-        $this->model->store($data);
+        return $this->model->store($data);
     }
 
     public function update(array $data, string $id)
     {
-        $this->model->update($data, $id);
+        return $this->model->update($data, $id);
     }
 
     public function delete(string $id)
     {
-        $this->model->delete($id);
+        return $this->model->delete($id);
     }
 }

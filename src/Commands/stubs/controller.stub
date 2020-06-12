@@ -2,110 +2,76 @@
 
 namespace $CLASS_NAMESPACE$;
 
-use Throwable;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
+use App\Http\Controllers\Controller;
+use App\Traits\ApiResponser;
 use $SERVICE_NAMESPACE$\$SERVICE$Service;
 
 class $CLASS$ extends Controller
 {
+    use ApiResponser;
+
     protected $service;
 
     public function __construct($SERVICE$Service $service)
     {
-        try
-        {
-            $this->service = $service;
-        }
-        catch (Throwable $error)
-        {
-            //
-        }
+        $this->service = $service;
     }
 
     /**
-     * Display a listing of the resource.
-     * @return Response
+     * Display a listing of the $SERVICE$.
+     * @return JsonResponse
      */
     public function index()
     {
-        try
-        {
-            return $this->service->index();
-        }
-        catch (Throwable $error)
-        {
-            //
-        }
+        $data = $this->service->index();
+        return $this->successResponse($data);
     }
 
     /**
-     * Show the specified resource.
+     * Show the specified $SERVICE$.
      * @param int $id
-     * @return Response
+     * @return JsonResponse
      */
     public function show($id)
     {
-        try
-        {
-            return $this->service->show($id);
-        }
-        catch (Throwable $error)
-        {
-            //
-        }
+        $data = $this->service->show($id);
+        return $this->successResponse($data);
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created $SERVICE$ in storage.
      * @param Request $request
-     * @return Response
+     * @return JsonResponse
      */
     public function store(Request $request)
     {
-        try
-        {
-            return $this->service->store($request->all());
-        }
-        catch (Throwable $error)
-        {
-            //
-        }
+        $data = $this->service->store($request->all());
+        return $this->successResponse($data, Response::HTTP_CREATED);
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified $SERVICE$ in storage.
      * @param Request $request
      * @param int $id
-     * @return Response
+     * @return JsonResponse
      */
     public function update(Request $request, $id)
     {
-        try
-        {
-            return $this->service->update($request->all(), $id);
-        }
-        catch (Throwable $error)
-        {
-            //
-        }
+        $data = $this->service->update($request->all(), $id);
+        return $this->successResponse($data);
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified $SERVICE$ from storage.
      * @param int $id
-     * @return Response
+     * @return JsonResponse
      */
     public function delete($id)
     {
-        try
-        {
-            return $this->service->delete($id);
-        }
-        catch (Throwable $error)
-        {
-            //
-        }
+        $data = $this->service->delete($id);
+        return $this->successResponse($data);
     }
 }

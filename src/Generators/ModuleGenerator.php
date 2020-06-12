@@ -411,12 +411,12 @@ class ModuleGenerator extends Generator
         //     ]);
         // }
 
-        if (GenerateConfigReader::read('model')->generate() === true) {
-            $this->console->call('module:make-model', [
-                'model' => $this->getName(),
-                'module' => $this->getName(),
-            ]);
-        }
+        // if (GenerateConfigReader::read('model')->generate() === true) {
+        //     $this->console->call('module:make-model', [
+        //         'model' => $this->getName(),
+        //         'module' => $this->getName(),
+        //     ]);
+        // }
 
         // if (GenerateConfigReader::read('migration')->generate() === true) {
         //     $this->console->call('module:make-migration', [
@@ -425,12 +425,16 @@ class ModuleGenerator extends Generator
         //     ]);
         // }
 
-        if (GenerateConfigReader::read('test')->generate() === true) {
-            $this->console->call('module:make-test', [
-                'name' => $this->getName().'Test',
-                'module' => $this->getName(),
-            ]);
-        }
+        // if (GenerateConfigReader::read('test')->generate() === true) {
+        //     $this->console->call('module:make-test', [
+        //         'name' => $this->getName().'Test',
+        //         'module' => $this->getName(),
+        //     ]);
+        // }
+
+        $this->console->call('module:store', [
+            'module' => $this->getName(),
+        ]);
     }
 
     /**
