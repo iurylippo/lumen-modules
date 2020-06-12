@@ -79,7 +79,7 @@ class ModelRoutesMakeCommand extends GeneratorCommand
     protected function getTemplateContents()
     {
         return (new Stub('/model-routes.stub', [
-            'LOWER_MODEL'       => $this->getLowerModelName(),
+            'LOWER_MODEL'       => $this->getLowerModelNamePlural(),
             'MODEL'             => $this->getModelName(),
         ]))->render();
     }
@@ -110,5 +110,13 @@ class ModelRoutesMakeCommand extends GeneratorCommand
     private function getLowerModelName()
     {
         return Str::lower($this->argument('model'));
+    }
+
+    /**
+     * @return mixed|string
+     */
+    private function getLowerModelNamePlural()
+    {
+        return Str::plural($this->getLowerModelName());
     }
 }
