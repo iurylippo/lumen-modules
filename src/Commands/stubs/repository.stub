@@ -26,17 +26,16 @@ class $REPOSITORY_CLASS$ implements $REPOSITORY_NAME$RepositoryContract
 
     public function store(array $data)
     {
-        $this->model->name = $data['name'];
-        $this->model->save();
+        return $this->model->create($data);
     }
 
     public function update(array $data, string $id)
     {
-        $this->model->findOrFail($id)->first()->update($data);
+        return $this->model->findOrFail($id)->first()->update($data);
     }
 
     public function delete(string $id)
     {
-        $this->model->findOrFail($id)->first()->delete();
+        return $this->model->findOrFail($id)->first()->delete();
     }
 }

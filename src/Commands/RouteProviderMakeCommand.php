@@ -85,7 +85,7 @@ class RouteProviderMakeCommand extends GeneratorCommand
      */
     private function getFileName()
     {
-        return $this->getModuleName().'RouteServiceProvider';
+        return $this->getModuleName().'ServiceProvider';
     }
 
     /**

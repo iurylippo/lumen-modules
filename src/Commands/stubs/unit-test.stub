@@ -9,6 +9,8 @@ use Faker\Factory as Faker;
 
 class $CLASS$ extends TestCase
 {
+    use DatabaseTransactions;
+
     /**
      * A basic unit test example.
      *
