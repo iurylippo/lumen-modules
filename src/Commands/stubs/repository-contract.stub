@@ -2,6 +2,9 @@
 
 namespace $CONTRACT_NAMESPACE$;
 
+/**
+ * $NAME_STUDLY$ Contract
+ */
 interface $CONTRACT_NAME$
 {
     public function index();

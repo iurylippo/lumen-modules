@@ -70,12 +70,13 @@ class ServiceMakeCommand extends GeneratorCommand
     protected function getTemplateContents()
     {
         $module = $this->laravel['modules']->findOrFail($this->getModuleName());
-
+        dd($this->getDefaultModelNamespace());
         return (new Stub('/service.stub', [
             'SERVICE_NAMESPACE'     => $this->getClassNamespace($module),
             'SERVICE_CLASS'         => $this->getServiceName(),
             'REPOSITORY_NAMESPACE'  => $this->getDefaultRepositoryContractNamespace(),
-            'SERVICENAME_STUDLY'    => $this->getStudlyName()
+            'SERVICENAME_STUDLY'    => $this->getStudlyName(),
+            'MODEL_NAMESPACE'       => $this->getDefaultModelNamespace()
         ]))->render();
     }
 
@@ -96,6 +97,24 @@ class ServiceMakeCommand extends GeneratorCommand
 
         $defaultRepositoryNameSpace = $module->config('paths.generator.contracts.namespace') ?:
                                       $module->config('paths.generator.contracts.path', 'Repositories/Contracts');
+
+        $namespace .= '\\' . $defaultRepositoryNameSpace;
+
+        $namespace = str_replace('/', '\\', $namespace);
+
+        return $namespace;
+    }
+
+    public function getDefaultModelNamespace() : string
+    {
+        $module = $this->laravel['modules'];
+
+        $namespace = $module->config('namespace');
+
+        $namespace .= '\\' . $this->getModuleName();
+
+        $defaultRepositoryNameSpace = $module->config('paths.generator.model.namespace') ?:
+                                      $module->config('paths.generator.model.path', 'Entities');
 
         $namespace .= '\\' . $defaultRepositoryNameSpace;
 
