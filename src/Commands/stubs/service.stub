@@ -3,38 +3,78 @@
 namespace $SERVICE_NAMESPACE$;
 
 use $REPOSITORY_NAMESPACE$\$SERVICENAME_STUDLY$RepositoryContract;
+use $MODEL_NAMESPACE$\$SERVICENAME_STUDLY;
 
 class $SERVICE_CLASS$
 {
-    protected $model;
+    /**
+     * @var $SERVICENAME_STUDLY$RepositoryContract
+     */
+    protected $repository;
 
-    public function __construct($SERVICENAME_STUDLY$RepositoryContract $model)
+    /**
+     * Inject Repository
+     *
+     * @param $SERVICENAME_STUDLY$RepositoryContract $repository
+     * @return void
+     */
+    public function __construct($SERVICENAME_STUDLY$RepositoryContract $repository)
     {
-        $this->model = $model;
+        $this->repository = $repository;
     }
 
+    /**
+     * Get list of $SERVICENAME_STUDLY$ on repository
+     *
+     * @return array
+     */
     public function index()
     {
-        return $this->model->index();
+        return $this->repository->index();
     }
 
+    /**
+     * Get the especific $SERVICENAME_STUDLY$ on repository
+     *
+     * @param string $id
+     * @return $SERVICENAME_STUDLY$
+     */
     public function show(string $id)
     {
-        return $this->model->show($id);
+        return $this->repository->show($id);
     }
 
+    /**
+     * store the $SERVICENAME_STUDLY$ on repository
+     *
+     * @param array $data
+     * @return $SERVICENAME_STUDLY$
+     */
     public function store(array $data)
     {
-        return $this->model->store($data);
+        return $this->repository->store($data);
     }
 
+    /**
+     * Update the especific $SERVICENAME_STUDLY$ on repository
+     *
+     * @param array $data
+     * @param string $id
+     * @return bool
+     */
     public function update(array $data, string $id)
     {
-        return $this->model->update($data, $id);
+        return $this->repository->update($data, $id);
     }
 
+    /**
+     * Delete the especific $SERVICENAME_STUDLY$ on repository
+     *
+     * @param string $id
+     * @return bool
+     */
     public function delete(string $id)
     {
-        return $this->model->delete($id);
+        return $this->repository->delete($id);
     }
 }
