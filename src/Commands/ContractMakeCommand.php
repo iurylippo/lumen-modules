@@ -75,6 +75,7 @@ class ContractMakeCommand extends GeneratorCommand
         return (new Stub('/repository-contract.stub', [
             'CONTRACT_NAMESPACE'    => $this->getClassNamespace($module),
             'CONTRACT_NAME'         => $this->getContractName(),
+            'NAME_STUDLY'           => $this->getStudlyName()
         ]))->render();
     }
 

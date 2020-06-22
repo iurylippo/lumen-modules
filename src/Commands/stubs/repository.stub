@@ -7,33 +7,72 @@ use $CONTRACTS_NAMESPACE$\$REPOSITORY_NAME$RepositoryContract;
 
 class $REPOSITORY_CLASS$ implements $REPOSITORY_NAME$RepositoryContract
 {
+    /**
+     * @var $REPOSITORY_NAME$
+     */
     protected $model;
 
+    /**
+     * Inject Model
+     *
+     * @param $REPOSITORY_NAME$ $model
+     * @return void
+     */
     public function __construct($REPOSITORY_NAME$ $model)
     {
         $this->model = $model;
     }
 
+    /**
+     * Get list of $REPOSITORY_NAME$
+     *
+     * @return array
+     */
     public function index()
     {
         return $this->model->all();
     }
 
+    /**
+     * Get the especific $REPOSITORY_NAME$
+     *
+     * @param string $id
+     * @return $REPOSITORY_NAME$
+     */
     public function show(string $id)
     {
         return $this->model->findOrFail($id)->first();
     }
 
+    /**
+     * store the $REPOSITORY_NAME$
+     *
+     * @param array $data
+     * @return $REPOSITORY_NAME$
+     */
     public function store(array $data)
     {
         return $this->model->create($data);
     }
 
+    /**
+     * Update the especific $REPOSITORY_NAME$
+     *
+     * @param array $data
+     * @param string $id
+     * @return bool
+     */
     public function update(array $data, string $id)
     {
         return $this->model->findOrFail($id)->first()->update($data);
     }
 
+    /**
+     * Delete the especific $REPOSITORY_NAME$
+     *
+     * @param string $id
+     * @return bool
+     */
     public function delete(string $id)
     {
         return $this->model->findOrFail($id)->first()->delete();
