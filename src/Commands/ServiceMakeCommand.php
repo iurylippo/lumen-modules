@@ -70,7 +70,7 @@ class ServiceMakeCommand extends GeneratorCommand
     protected function getTemplateContents()
     {
         $module = $this->laravel['modules']->findOrFail($this->getModuleName());
-        dd($this->getDefaultModelNamespace());
+
         return (new Stub('/service.stub', [
             'SERVICE_NAMESPACE'     => $this->getClassNamespace($module),
             'SERVICE_CLASS'         => $this->getServiceName(),
