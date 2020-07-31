@@ -15,7 +15,10 @@ class $NAME$ extends Seeder
     public function run()
     {
         Model::unguard();
+        // use for factory common seeders
+        // factory(\Modules\Example\Entities\Example::class, 10)->create();
 
-        // $this->call("OthersTableSeeder");
+        // use for master seeder
+        // $this->call('Modules\Example\Database\Seeders\ExampleSeeder');
     }
 }

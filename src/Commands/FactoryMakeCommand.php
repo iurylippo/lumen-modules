@@ -51,7 +51,10 @@ class FactoryMakeCommand extends GeneratorCommand
      */
     protected function getTemplateContents()
     {
-        return (new Stub('/factory.stub'))->render();
+        $model_namespace = $this->getDefaultModelNamespace() . "\\" . $this->getModelForFactory();
+        return (new Stub('/factory.stub', [
+            'MODEL_NAMASPACE', $model_namespace
+        ]))->render();
     }
 
     /**
@@ -71,6 +74,40 @@ class FactoryMakeCommand extends GeneratorCommand
      */
     private function getFileName()
     {
-        return Str::studly($this->argument('name')) . '.php';
+        $factory = Str::studly($this->argument('name'));
+        if (Str::contains(strtolower($factory), 'factory') === false) {
+            $factory .= 'Factory';
+        }
+        $factory .= '.php';
+        return $factory ;
+    }
+
+    /**
+     * @return string
+     */
+    private function getModelForFactory()
+    {
+        return Str::studly($this->argument('name'));
+    }
+
+    /**
+     * @return string
+     */
+    private function getDefaultModelNamespace() : string
+    {
+        $module = $this->laravel['modules'];
+
+        $namespace = $module->config('namespace');
+
+        $namespace .= '\\' . $this->getModuleName();
+
+        $defaultRepositoryNameSpace = $module->config('paths.generator.model.namespace') ?:
+                                      $module->config('paths.generator.model.path', 'Entities');
+
+        $namespace .= '\\' . $defaultRepositoryNameSpace;
+
+        $namespace = str_replace('/', '\\', $namespace);
+
+        return $namespace;
     }
 }

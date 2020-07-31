@@ -42,7 +42,18 @@ class Utils
             $lineString = $content;
           break;
 
+          case "systemProviders":
+            $identifier = "//systemProviders";
+            $lineString = $content;
+          break;
+
           default:
+            return false;
+        }
+
+        $fileContent = file_get_contents($pathApp) or exit("Unable to open file!");
+
+        if(!strpos($fileContent, $identifier)) {
             return false;
         }
 
@@ -68,5 +79,46 @@ class Utils
       } catch(Exception $ex) {
         return false;
       }
+    }
+
+    /**
+     * @param string $moduleName
+     * @return bool
+     */
+    static function getModuleRegisterStatus(string $moduleName, string $registerName, $obj)
+    {
+        try {
+            $file = str_replace("\\", "/",  base_path() . '/modules_registers.json');
+            $content = json_decode(file_get_contents($file), true)[$registerName];
+
+            foreach($content as $register => $value) {
+                if($register === $moduleName && $value) {
+                    $obj->warn("Register {$registerName} for {$moduleName} alredy exists");
+                    return true;
+                }
+            }
+        } catch(\Throwable $e) {
+            $obj->error("Error on getting {$registerName} status in path : {$file}.");
+        }
+
+        return false;
+    }
+
+    /**
+     * @param string $moduleName
+     * @return void
+     */
+    static function saveModuleRegisterStatus(string $moduleName, string $registerName, $obj)
+    {
+        try {
+            $file = str_replace("\\", "/",  base_path() . '/modules_registers.json');
+            $content = json_decode(file_get_contents($file), true);
+            $content[$registerName][$moduleName] = true;
+
+            file_put_contents($file, json_encode($content, JSON_PRETTY_PRINT));
+            $obj->info("Success on registering {$registerName} status in path : {$file}");
+        } catch(\Throwable $e) {
+            $obj->error("Error on registering {$registerName} status in path : {$file}");
+        }
     }
 }

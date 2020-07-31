@@ -299,11 +299,14 @@ class ModuleGenerator extends Generator
             }
         }
 
+        $this->createModulesRegisterLog();
+
         $this->generateFolders();
 
         $this->generateModuleJsonFile();
 
         if ($this->plain !== true) {
+            $this->cleanModuleJsonFile();
             $this->generateFiles();
             $this->generateResources();
         }
@@ -385,13 +388,13 @@ class ModuleGenerator extends Generator
      */
     public function generateResources()
     {
-        // if (GenerateConfigReader::read('seeder')->generate() === true) {
-        //     $this->console->call('module:make-seed', [
-        //         'name' => $this->getName(),
-        //         'module' => $this->getName(),
-        //         '--master' => true,
-        //     ]);
-        // }
+        if (GenerateConfigReader::read('seeder')->generate() === true) {
+            $this->console->call('module:make-seed', [
+                'name' => $this->getName(),
+                'module' => $this->getName(),
+                '--master' => true,
+            ]);
+        }
 
         if (GenerateConfigReader::read('provider')->generate() === true) {
             // $this->console->call('module:make-provider', [
@@ -435,6 +438,30 @@ class ModuleGenerator extends Generator
         $this->console->call('module:store', [
             'module' => $this->getName(),
         ]);
+    }
+
+    /**
+     * @return void
+     */
+    protected function createModulesRegisterLog()
+    {
+        $content = [
+            'module_routes' => [],
+            'module_providers' => [],
+            'model_binds' => [],
+            'model_routes' => []
+        ];
+
+        $file = str_replace("\\", "/", base_path() . '/modules_registers.json');
+
+        try {
+            if(!file_exists($file)) {
+                file_put_contents($file, json_encode($content, JSON_PRETTY_PRINT));
+                $this->console->info("Success on creating Modules registers file in path : {$file}");
+            }
+        } catch(\Throwable $e) {
+            $this->console->error("Error on creating Modules registers file in path : {$file}");
+        }
     }
 
     /**
