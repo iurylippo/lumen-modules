@@ -41,10 +41,12 @@ class ModelRoutesMakeCommand extends GeneratorCommand
         $content = $this->getTemplateContents();
 
         try {
-            Utils::appendStringOnFile($path, 'Modelroutes', $this->getModuleName(), $content);
-            $this->info("Created : {$path}.");
+            if(!Utils::getModuleRegisterStatus($this->getModelName(), "model_routes", $this)) {
+                Utils::appendStringOnFile($path, 'Modelroutes', $this->getModuleName(), $content);
+                Utils::saveModuleRegisterStatus($this->getModelName(), "model_routes", $this);
+            }
         } catch (Throwable $e) {
-            $this->error("Error on creating model routes : {$path}.");
+            $this->error("Error on creating model routes in path : {$path}.");
         }
     }
 

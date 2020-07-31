@@ -3,6 +3,7 @@
 namespace $NAMESPACE$;
 
 use Illuminate\Support\ServiceProvider;
+use \Illuminate\Database\Eloquent\Factory;
 
 class $CLASS$ extends ServiceProvider
 {
@@ -13,6 +14,11 @@ class $CLASS$ extends ServiceProvider
      */
     public function register()
     {
-        //
+        if (!app()->environment('production') && $this->app->runningInConsole()) {
+            $this->app->singleton(Factory::class, function () {
+                $faker = $this->app->make(\Faker\Generator::class);
+                return Factory::construct($faker, __DIR__ . '/../Database/factories');
+            });
+        }
     }
 }

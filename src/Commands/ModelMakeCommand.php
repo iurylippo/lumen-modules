@@ -140,6 +140,17 @@ class ModelMakeCommand extends GeneratorCommand
                 'name' => $this->getModelName().'Test',
                 'module' => $this->getModuleName(),
             ]);
+
+            $this->call('module:make-seed', [
+                'name' => $this->getModelName(),
+                'module' => $this->getModuleName(),
+                '--master' => false,
+            ]);
+
+            $this->call('module:make-factory', [
+                'name' => $this->getModelName(),
+                'module' => $this->getModuleName(),
+            ]);
         }
     }
 

@@ -57,16 +57,14 @@ class RouteProviderMakeCommand extends GeneratorCommand
     {
         $module = $this->laravel['modules']->findOrFail($this->getModuleName());
 
-        $routesContent = (new Stub('/provider-routes-register.stub', [
-            'MODULE_NAMESPACE'     => $this->laravel['modules']->config('namespace'),
-            'MODULE'               => $this->getModuleName(),
-            'CONTROLLER_NAMESPACE' => $this->getControllerNameSpace(),
-            'WEB_ROUTES_PATH'      => $this->getWebRoutesPath(),
-        ]))->render();
-
-        $moduleRoutesProviderPath = \getenv('APP_PATH') . 'app\Providers\ModulesRoutesProvider.php';
-        $moduleRoutesProviderPath = \str_replace("\\", "/", $moduleRoutesProviderPath);
-        Utils::appendStringOnFile($moduleRoutesProviderPath, "modulesRoutes", $this->getModuleName(), $routesContent);
+        if(!Utils::getModuleRegisterStatus($this->getModuleName(), "module_routes", $this)) {
+            $this->registerRoutesOnProvider();
+            Utils::saveModuleRegisterStatus($this->getModuleName(), "module_routes", $this);
+        }
+        if(!Utils::getModuleRegisterStatus($this->getModuleName(), "module_providers", $this)) {
+            $this->registerProviderOnApp($this->getClassNamespace($module), $this->getFileName());
+            Utils::saveModuleRegisterStatus($this->getModuleName(), "module_providers", $this);
+        }
 
         return (new Stub('/route-provider.stub', [
             'NAMESPACE'            => $this->getClassNamespace($module),
@@ -78,6 +76,52 @@ class RouteProviderMakeCommand extends GeneratorCommand
             'API_ROUTES_PATH'      => $this->getApiRoutesPath(),
             'LOWER_NAME'           => $module->getLowerName(),
         ]))->render();
+    }
+
+    /**
+     * @return void
+     */
+    protected function registerRoutesOnProvider()
+    {
+        $routesContent = (new Stub('/provider-routes-register.stub', [
+            'MODULE_NAMESPACE'     => $this->laravel['modules']->config('namespace'),
+            'MODULE'               => $this->getModuleName(),
+            'CONTROLLER_NAMESPACE' => $this->getControllerNameSpace(),
+            'WEB_ROUTES_PATH'      => $this->getWebRoutesPath(),
+        ]))->render();
+
+        $path = base_path() . '/app/Providers/ModulesRoutesProvider.php';
+        $path = \str_replace("\\", "/", $path);
+
+        try {
+            if(Utils::appendStringOnFile($path, "modulesRoutes", $this->getModuleName(), $routesContent)) {
+                $this->info("Success on registering Module Routes in Provider path: {$path}");
+            } else {
+                $this->error("Something happen on registering Module Routes in Provider path : {$path}");
+            }
+        } catch (\Throwable $e) {
+            $this->error("Error on registering Module Routes in Provider path : {$path}");
+        }
+    }
+
+    /**
+     * @return void
+     */
+    protected function registerProviderOnApp(string $nameSpace, string $className)
+    {
+        $path = base_path() . '/bootstrap/app.php';
+        $path = \str_replace("\\", "/", $path);
+        $content = '$app->register(\\'.$nameSpace.'\\'.$className.'::class);' . "\n";
+
+        try {
+            if(Utils::appendStringOnFile($path, 'systemProviders', $this->getModuleName(), $content)) {
+                $this->info("Success on registering Module Provider path: {$path}");
+            } else {
+                $this->error("Something happen on registering Module Provider path : {$path}");
+            }
+        } catch (\Throwable $e) {
+            $this->error("Error on registering Module Provider path : {$path}");
+        }
     }
 
     /**

@@ -72,16 +72,7 @@ class RepositoryMakeCommand extends GeneratorCommand
     {
         $module = $this->laravel['modules']->findOrFail($this->getModuleName());
 
-        $bindsContent = (new Stub('/provider-binds-register.stub', [
-            'REPOSITORY_NAMESPACE'  => $this->getClassNamespace($module),
-            'REPOSITORY_CLASS'      => $this->getRepositoryName(),
-            'CONTRACTS_NAMESPACE'   => $this->getDefaultRepositoryContractNamespace(),
-            'REPOSITORY_NAME'       => $this->getStudlyName()
-        ]))->render();
-
-        $moduleBindsProviderPath = \getenv('APP_PATH') . 'app/Providers/ModulesBindsProvider.php';
-        $moduleBindsProviderPath = \str_replace("\\", "/", $moduleBindsProviderPath);
-        Utils::appendStringOnFile($moduleBindsProviderPath, "modulesBinds", $this->getModuleName(), $bindsContent);
+        $this->registerRepositoryBind($module);
 
         return (new Stub('/repository.stub', [
             'REPOSITORY_NAMESPACE'  => $this->getClassNamespace($module),
@@ -90,6 +81,27 @@ class RepositoryMakeCommand extends GeneratorCommand
             'CONTRACTS_NAMESPACE'   => $this->getDefaultRepositoryContractNamespace(),
             'REPOSITORY_NAME'       => $this->getStudlyName()
         ]))->render();
+    }
+
+    protected function registerRepositoryBind($module)
+    {
+        $bindsContent = (new Stub('/provider-binds-register.stub', [
+            'REPOSITORY_NAMESPACE'  => $this->getClassNamespace($module),
+            'REPOSITORY_CLASS'      => $this->getRepositoryName(),
+            'CONTRACTS_NAMESPACE'   => $this->getDefaultRepositoryContractNamespace(),
+            'REPOSITORY_NAME'       => $this->getStudlyName()
+        ]))->render();
+
+        try {
+            if(!Utils::getModuleRegisterStatus($this->getRepositoryName(), "model_binds", $this)) {
+                $moduleBindsProviderPath = base_path() . '/app/Providers/ModulesBindsProvider.php';
+                $moduleBindsProviderPath = \str_replace("\\", "/", $moduleBindsProviderPath);
+                Utils::appendStringOnFile($moduleBindsProviderPath, "modulesBinds", $this->getModuleName(), $bindsContent);
+                Utils::saveModuleRegisterStatus($this->getRepositoryName(), "model_binds", $this);
+            }
+        } catch (\Throwable $e) {
+            $this->error("Error on registering model_binds in path : {$moduleBindsProviderPath}");
+        }
     }
 
     public function getDefaultNamespace() : string
